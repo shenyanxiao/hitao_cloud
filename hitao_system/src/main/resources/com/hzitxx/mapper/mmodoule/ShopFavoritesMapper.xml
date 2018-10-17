@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.mmodoule.ShopFavoritesMapper">
+	<!-- 增加 -->
+	<insert id="addFavotity"  parameterType="com.hzitxx.entity.ShopFavorites">
+	 insert into shop_favorites (goods_id,member_id,fav_type,goods_name,goods_jingle,main_image,fav_time)
+	  values (#{goodsId},#{memberId},#{favType},#{goodsName},#{goodsJingle},#{mainImage}, #{favTime})
+	</insert>
+	<!--根据id查询 -->
+	<select id="findOne" resultMap="resultMap" parameterType="integer">
+	select <include refid="sql"></include> from shop_favorites where fav_id=#{favId}
+	</select>
+	<!-- 分页查询 -->
+	<select id="findFavority" resultMap="resultMap" parameterType="map">
+	select <include refid="sql"></include> from shop_favorites 	
+	<!-- 查询条件 
+	<where>
+	<if test="goodsId!=null">
+		and goods_id=#{goodsId}
+	</if>
+	<if test="memberId!=null">
+		and member_id=#{memberId}
+	</if>
+	<if test="favType!=null">
+		and fav_type=#{favType}
+	</if>
+	<if test="goodsName!=null">
+		and goods_name=like concat(#{goodsName},'%')
+	</if>
+	<if test="goodsJingle!=null">
+		and goods_jingle=#{goodsJingle}
+	</if>
+	<if test="mainImage!=null">
+		and main_image=#{mainImage}
+	</if>
+	<if test="favTime!=null">
+		and fav_time=#{favTime}
+	</if>
+	</where>  -->
+	</select>
+	<!-- 编辑 -->
+	<update id="updateFavotity" parameterType="integer">
+	update shop_favorites
+	<set>
+	<if test="goodsId!=null">
+		goods_id=#{goodsId},
+	</if>
+	<if test="memberId!=null">
+		member_id=#{memberId},
+	</if>
+	<if test="favType!=null">
+		fav_type=#{favType},
+	</if>
+	<if test="goodsName!=null">
+		goods_name=#{goodsName},
+	</if>
+	<if test="goodsJingle!=null">
+		goods_jingle=#{goodsJingle},
+	</if>
+	<if test="mainImage!=null">
+		main_image=#{mainImage},
+	</if>
+	<if test="favTime!=null">
+		fav_time=#{favTime}
+	</if>
+	</set>
+	where fav_id=#{favId}
+	</update>
+	<!-- 删除 -->
+	<delete id="deleteFavority" parameterType="integer">
+	delete from shop_favorites where fav_id=#{favId}
+	</delete>
+	<resultMap type="com.hzitxx.entity.ShopFavorites" id="resultMap">
+	<id column="fav_id" property="favId" />
+    <result column="goods_id" property="goodsId" />
+    <result column="member_id" property="memberId" />
+    <result column="fav_type" property="favType" />
+    <result column="goods_name" property="goodsName" />
+    <result column="goods_jingle" property="goodsJingle" />
+    <result column="main_image" property="mainImage" />
+    <result column="fav_time" property="favTime" />
+	</resultMap>
+	<sql id="sql">
+	fav_id,goods_id,member_id,fav_type,goods_name,goods_jingle,main_image,fav_time
+	</sql>
+</mapper>

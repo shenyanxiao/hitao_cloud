@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopRoleMenuMapper">
+<!-- 查询信息 -->
+<select id="findRM" resultMap="result" parameterType="map">
+  select id,role_id,menu_id from shop_role_menu
+</select>
+<!-- 增加 -->
+<insert id="addRM" parameterType="com.hzitxx.entity.ShopRoleMenu">
+  insert into shop_role_menu (role_id,menu_id) values (#{roleId},#{menuId})
+</insert>
+<!-- 编辑 -->
+<update id="updateRM" parameterType="com.hzitxx.entity.ShopRoleMenu">
+update shop_role_menu
+  <set>
+  <if test="roleId">
+   role_id=#{roleId}
+  </if>
+  <if test="menuId">
+   menu_id=#{menuId}
+  </if>
+  </set>
+  where id=#{id}
+</update>
+<!-- 删除 -->
+<delete id="deleteRM" parameterType="integer">
+	delete from shop_role_menu where id=#{id}
+</delete>
+<!-- 根据id查询 -->
+<select id="findOneRM" resultMap="result" parameterType="integer">
+  select id,role_id,menu_id from shop_role_menu where id=#{id}
+</select>
+<resultMap type="com.hzitxx.entity.ShopRoleMenu" id="result">
+<id column="id" property="id"/>
+<result column="role_id" property="roleId"/>
+<result column="menu_id" property="menuId"/>
+</resultMap>
+</mapper>

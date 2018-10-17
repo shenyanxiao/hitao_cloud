@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopAdminRoleMapper">
+<!-- 查询信息 -->
+<select id="findAR" resultMap="resultMap" parameterType="map">
+	select id,admin_id,role_id from shop_admin_role
+</select>
+<!-- 增加 -->
+<insert id="addAR" parameterType="com.hzitxx.entity.ShopAdminRole">
+	insert into shop_admin_role (admin_id,role_id) values (#{adminId},#{roleId})
+</insert>
+<!-- 编辑 -->
+<update id="updateAR" parameterType="com.hzitxx.entity.ShopAdminRole">
+	update shop_admin_role
+	<set>
+	<if test="adminId">
+		admin_id=#{adminId},
+	</if>
+	<if test="roleId">
+		role_id=#{roleId},
+	</if>
+	</set>
+	where id=#{id}
+</update>
+<!-- 删除 -->
+<delete id="deleteAR" parameterType="integer">
+  delete from shop_admin_role where id=#{id}
+</delete>
+<!-- 根据id查询 -->
+<select id="findOneAR"  resultMap="resultMap" parameterType="integer">
+	select id,admin_id,role_id from shop_admin_role where id=#{id}
+</select>
+<resultMap type="com.hzitxx.entity.ShopAdminRole" id="resultMap">
+<id column="id"  property="id"/>
+<result column="admin_id" property="adminId"/>
+<result column="role_id" property="roleId"/>
+</resultMap>
+
+</mapper>
