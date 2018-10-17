@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzit.mapper.CityMapper">
+<!-- 根据省级id来查询城市信息 -->
+<select id="findByProvinceId" resultMap="resultMap" parameterType="com.hzitxx.entity.SCity">
+select city_id,city_name,zip_code,province_id  from s_city
+where province_id=#{provinceId}
+</select>
+<resultMap id="resultMap" type="com.hzitxx.entity.SCity">
+<id column="city_id" property="cityId" />
+<result column="city_name" property="cityName" />
+<result column="zip_code" property="zipCode" />
+<result column="province_id" property="provinceId" />
+</resultMap>
+</mapper>

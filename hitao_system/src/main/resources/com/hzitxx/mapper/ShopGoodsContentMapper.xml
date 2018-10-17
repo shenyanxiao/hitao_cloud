@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopGoodsContentMapper">
+<!--表的列  -->
+<sql id="shopContent">
+goods_id,content,created_time,updated_time
+</sql>
+<!-- 查询所有类目信息/根据id回显类目信息 -->
+<select id="findAll" resultMap="resultMap" parameterType="map">
+select <include refid="shopContent"></include> from shop_goods_content
+<where>
+<if test="goodsId!=null">goods_id=#{goodsId}</if>
+</where>
+</select>
+<!-- 添加商品内容信息 -->
+<insert id="addContent" parameterType="com.hzitxx.entity.ShopGoodsContent"> 
+insert into shop_goods_content(goods_id,content,created_time) 
+values(#{goodsId},#{content},#{createdTime})
+</insert> 
+<!--根据商品id修改商品内容信息 -->
+ <update id="updateContent" parameterType="com.hzitxx.entity.ShopGoodsContent">
+update shop_goods_content
+<set> 
+<if test="content!=null ">content=#{content},</if>
+<if test="updatedTime!=null">updated_time=#{updatedTime}</if>
+</set>
+where goods_id=#{goodsId}
+</update>  
+<!--根据商品id删除商品内容信息  -->
+ <delete id="deleteContent" parameterType="Integer">
+delete from shop_goods_content where goods_id=#{goodsId}
+</delete>  
+<!--封装集  -->
+<resultMap id="resultMap" type="com.hzitxx.entity.ShopGoodsContent">
+<id column="goods_id" property="goodsId" />
+<result column="content" property="content" />
+<result column="created_time" property="createdTime" />
+<result column="updated_time" property="updatedTime" />
+</resultMap>
+</mapper>

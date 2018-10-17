@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopGoodsImagesMapper">
+<!--表的列  -->
+<sql id="shopImages">
+goods_image_id,goods_id,color_id,goods_image,goods_image_sort,is_default
+</sql>
+<!-- 查询所有商品图片信息/根据商品id回显图片信息 -->
+<select id="findAll" resultMap="resultMap" parameterType="map">
+select <include refid="shopImages"></include> from shop_goods_images
+<where>
+<if test="goodsId!=null">goods_id=#{goodsId}</if>
+</where>
+</select>
+<!-- 添加商品图片信息 -->
+<insert id="addImages" parameterType="com.hzitxx.entity.ShopGoodsImages"> 
+insert into shop_goods_images(goods_id,color_id,goods_image,goods_image_sort,is_default)
+VALUES(#{goodsId},#{colorId},#{goodsImage},#{goodsImageSort},#{isDefault})
+</insert> 
+<!--根据商品id修改商品图片信息 -->
+ <update id="updateImages" parameterType="com.hzitxx.entity.ShopGoodsImages">
+update shop_goods_images
+<set> 
+<if test="colorId!=null ">color_id=#{colorId},</if>
+<if test="goodsImage!=null">goods_image=#{goodsImage}</if>
+<if test="goodsImageSort!=null">goods_image_sort=#{goodsImageSort}</if>
+<if test="isDefault!=null">is_default=#{isDefault}</if>
+</set>
+where goods_id=#{goodsId}
+</update>  
+<!--根据商品id删除商品图片信息  -->
+ <delete id="deleteImages" parameterType="Integer">
+delete from shop_goods_images where goods_id=#{goodsId}
+</delete>  
+<!--封装集  -->
+<resultMap id="resultMap" type="com.hzitxx.entity.ShopGoodsImages">
+<id column="goods_image_id" property="goodsImageId" />
+<result column="goods_id" property="goodsId" />
+<result column="color_id" property="colorId" />
+<result column="goods_image" property="goodsImage" />
+<result column="goods_image_sort" property="goodsImageSort" />
+<result column="is_default" property="isDefault" />
+</resultMap>
+</mapper>

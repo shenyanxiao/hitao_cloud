@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopGoodsAttrTemplateMapper">
+<!--表的列  -->
+<sql id="shopAttrTem">
+attr_id,cat_id,attr_value,is_del,created_time,updated_time
+</sql>
+<!-- 查询所有商品属性信息/根据类目id回显属性信息 -->
+<select id="findAll" resultMap="resultMap" parameterType="map">
+select <include refid="shopAttrTem"></include> from shop_goods_attr_template
+<where>
+<if test="catId!=null">cat_id=#{catId}</if>
+</where>
+</select>
+<!-- 添加商品属性信息 -->
+<insert id="addAttrTemplate" parameterType="com.hzitxx.entity.ShopGoodsAttrTemplate"> 
+insert into shop_goods_attr_template(attr_id,cat_id,attr_value,is_del,created_time)
+VALUES(#{attrId},#{catId},#{attrValue},#{isDel},#{createdTime})
+</insert> 
+<!--根据类目id修改商品属性信息 -->
+ <update id="updateAttrTemplate" parameterType="com.hzitxx.entity.ShopGoodsAttrTemplate">
+update shop_goods_attr_template
+<set> 
+<if test="attrId!=null">attr_id=#{attrId}</if>
+<if test="attrValue!=null">attr_value=#{attrValue}</if>
+<if test="isDel!=null">is_del=#{isDel}</if>
+<if test="updatedTiime!=null">updated_tiime=#{updatedTiime}</if>
+</set>
+where cat_id=#{catId}
+</update>  
+<!--根据类目id删除商品属性信息  -->
+ <delete id="deleteAttrTemplate" parameterType="Integer">
+delete from shop_goods_attr_template where cat_id=#{catId}
+</delete>  
+<!--封装集  -->
+<resultMap id="resultMap" type="com.hzitxx.entity.ShopGoodsAttrTemplate">
+<id column="attr_id" property="attrId" />
+<result column="cat_id" property="catId" />
+<result column="attr_value" property="attrValue" />
+<result column="is_del" property="isDel" />
+<result column="created_time" property="createdTime" />
+<result column="updated_tiime" property="updatedTiime" />
+</resultMap>
+</mapper>

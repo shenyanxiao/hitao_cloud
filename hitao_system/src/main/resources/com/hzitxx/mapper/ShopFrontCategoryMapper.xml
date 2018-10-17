@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopFrontCategoryMapper">
+<!--表的列  -->
+<sql id="shopFrontCat">
+front_cat_id,cat_id,cat_name,level,parent_id,sort,icon_image,url,adv_image,adv_link
+</sql>
+<!-- 查询所有类目信息/根据后台类目编号回显类目信息 -->
+<select id="findAll" resultMap="resultMap" parameterType="map">
+select <include refid="shopFrontCat"></include> from shop_front_category
+<where>
+<if test="catId!=null">cat_id=#{catId}</if>
+</where>
+</select>
+<!-- 添加类目信息 -->
+<insert id="addFrontCat" parameterType="com.hzitxx.entity.ShopFrontCategory"> 
+insert into shop_front_category(cat_id,cat_name,level,parent_id,sort,icon_image,url,adv_image,adv_link)
+VALUES(#{catId},#{catName},#{level},#{parentId},#{sort},#{iconImage},#{url},#{advImage},#{advLink})
+</insert> 
+<!--根据后台类目编号修改类目信息 -->
+<update id="updateFrontCat" parameterType="com.hzitxx.entity.ShopFrontCategory">
+update shop_front_category
+<set> 
+<if test="catName!=null ">cat_name=#{catName},</if>
+<if test="level!=null">level=#{level}</if>
+<if test="parentId!=null">parent_id=#{parentId}</if>
+<if test="sort!=null">sort=#{sort}</if>
+<if test="iconImage!=null">icon_image=#{iconImage}</if>
+<if test="url!=null">url=#{url}</if>
+<if test="advImage!=null">adv_image=#{advImage}</if>
+<if test="advLink!=null">adv_link=#{advLink}</if>
+</set>
+where cat_id=#{catId}
+</update>  
+<!--根据后台类目编号删除类目信息  -->
+ <delete id="deleteFrontCat" parameterType="Integer">
+delete from shop_front_category where cat_id=#{catId}
+</delete>  
+<!--封装集  -->
+<resultMap id="resultMap" type="com.hzitxx.entity.ShopFrontCategory">
+<id column="front_cat_id" property="frontCatId" />
+<result column="cat_id" property="catId" />
+<result column="cat_name" property="catName" />
+<result column="level" property="level" />
+<result column="parent_id" property="parentId" />
+<result column="sort" property="sort" />
+<result column="icon_image" property="iconImage" />
+<result column="url" property="url" />
+<result column="adv_image" property="advImage" />
+<result column="adv_link" property="advLink" />
+</resultMap>
+</mapper>

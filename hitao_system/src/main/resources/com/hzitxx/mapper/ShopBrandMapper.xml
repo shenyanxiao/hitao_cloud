@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hzitxx.mapper.ShopBrandMapper">
+<!--表的列  -->
+<sql id="shopBrand">
+brand_id,brand_name,brand_class,class_id,brand_pic,brand_sort,brand_recommend,brand_apply,
+is_del,created_time,updated_time
+</sql>
+<!-- 查询所有品牌信息/根据id回显品牌信息 -->
+<select id="findAll" resultMap="resultMap" parameterType="map">
+select <include refid="shopBrand"></include> from shop_brand
+<where>
+<if test="brandId!=null">brand_id=#{brandId}</if>
+</where>
+</select>
+<!-- 添加品牌信息 -->
+<insert id="addBrand" parameterType="com.hzitxx.entity.ShopBrand"> 
+insert into shop_brand(brand_name,brand_class,class_id,brand_pic,
+brand_sort,brand_recommend,brand_apply,is_del,created_time) 
+VALUES(#{brandName},#{brandClass},#{classId},#{brandPic},#{brandSort},#{brandRecommend},
+#{brandApply},#{isDel},#{createdTime})
+</insert>
+<!--根据id修改品牌信息 -->
+ <update id="updateBrand" parameterType="com.hzitxx.entity.ShopBrand">
+update shop_brand 
+<set> 
+<if test="brandName!=null ">brand_name=#{brandName},</if>
+<if test="brandClass!=null ">brand_class=#{brandClass},</if>
+<if test="classId!=null ">class_id=#{classId},</if>
+<if test="brandPic!=null ">brand_pic=#{brandPic},</if>
+<if test="brandSort!=null ">brand_sort=#{brandSort},</if>
+<if test="brandRecommend!=null ">brand_recommend=#{brandRecommend},</if>
+<if test="brandApply!=null ">brand_apply=#{brandApply},</if>
+<if test="isDel!=null ">is_del=#{isDel},</if>
+<if test="updatedTime!=null ">updated_time=#{updatedTime}</if>
+</set>
+where brand_id=#{brandId}
+</update> 
+<!--根据id删除品牌信息  -->
+<delete id="deleteBrand" parameterType="Integer">
+delete from shop_brand where brand_id=#{brandId}
+</delete> 
+<!--封装集  -->
+<resultMap id="resultMap" type="com.hzitxx.entity.ShopBrand">
+<id column="brand_id" property="brandId" />
+<result column="brand_name" property="brandName" />
+<result column="brand_class" property="brandClass" />
+<result column="class_id" property="classId" />
+<result column="brand_pic" property="brandPic" />
+<result column="brand_sort" property="brandSort" />
+<result column="brand_recommend" property="brandRecommend" />
+<result column="brand_apply" property="brandApply" />
+<result column="is_del" property="isDel" />
+<result column="created_time" property="createdTime" />
+<result column="updated_time" property="updatedTime" />
+</resultMap>
+</mapper>
